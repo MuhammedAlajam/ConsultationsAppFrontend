@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:cons_frontend/models/expert.dart';
-import 'package:cons_frontend/models/user.dart';
-import 'package:cons_frontend/screens/login.dart';
-import 'package:cons_frontend/services/user_service.dart';
+import 'package:consultations/models/expert.dart';
+import 'package:consultations/models/user.dart';
+import 'package:consultations/screens/login.dart';
+import 'package:consultations/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 
@@ -20,6 +20,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     String userJson = await getUserDataFromMemory();
 
     if (userJson == '') {
+      if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginScreen()),
           (route) => false);
@@ -30,6 +31,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       } else {
         user = Expert.fromJson(json);
       }
+      if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const Home()),
           (route) => false);

@@ -1,10 +1,9 @@
-import 'package:cons_frontend/models/apiResponse.dart';
-import 'package:cons_frontend/models/user.dart';
-import 'package:cons_frontend/screens/loading.dart';
-import 'package:cons_frontend/services/user_service.dart';
+import 'package:consultations/models/api_response.dart';
+import 'package:consultations/models/user.dart';
+import 'package:consultations/screens/loading.dart';
+import 'package:consultations/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../constant.dart';
 
 class SignUpExpertScreen extends StatefulWidget {
@@ -60,6 +59,7 @@ class _SignUpExpertScreenState extends State<SignUpExpertScreen> {
   void _saveAnsGoToHome(User user) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setString('userInfo', user.userDataToString());
+    if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const LoadingScreen()),
         (route) => false);

@@ -1,6 +1,6 @@
-import 'package:cons_frontend/constant.dart';
-import 'package:cons_frontend/screens/loading.dart';
-import 'package:cons_frontend/services/user_service.dart';
+import 'package:consultations/constant.dart';
+import 'package:consultations/screens/loading.dart';
+import 'package:consultations/services/user_service.dart';
 import 'package:flutter/material.dart';
 
 import '../models/expert.dart';

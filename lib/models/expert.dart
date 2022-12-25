@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cons_frontend/models/user.dart';
+import 'package:consultations/models/user.dart';
 
 class Expert extends User {
   String? description;

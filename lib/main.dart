@@ -1,4 +1,4 @@
-import 'package:cons_frontend/screens/loading.dart';
+import 'package:consultations/screens/loading.dart';
 import 'package:flutter/material.dart';
 
 final ThemeData theme = ThemeData();

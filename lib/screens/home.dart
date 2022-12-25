@@ -1,7 +1,7 @@
-import 'package:cons_frontend/constant.dart';
-import 'package:cons_frontend/screens/conversations.dart';
-import 'package:cons_frontend/screens/profile.dart';
-import 'package:cons_frontend/screens/user_booked_times.dart';
+import 'package:consultations/constant.dart';
+import 'package:consultations/screens/conversations.dart';
+import 'package:consultations/screens/profile.dart';
+import 'package:consultations/screens/user_booked_times.dart';
 import 'package:flutter/material.dart';
 import 'consultations.dart';
 import 'loading.dart';

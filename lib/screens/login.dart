@@ -1,9 +1,9 @@
-import 'package:cons_frontend/models/apiResponse.dart';
-import 'package:cons_frontend/models/user.dart';
-import 'package:cons_frontend/screens/loading.dart';
-import 'package:cons_frontend/screens/signUpExpert.dart';
-import 'package:cons_frontend/screens/signUpUser.dart';
-import 'package:cons_frontend/services/user_service.dart';
+import 'package:consultations/models/api_response.dart';
+import 'package:consultations/models/user.dart';
+import 'package:consultations/screens/loading.dart';
+import 'package:consultations/screens/signup_expert.dart';
+import 'package:consultations/screens/signup_user.dart';
+import 'package:consultations/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constant.dart';
@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         loading = false;
       });
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.blue[900],
           content: Text('${response.error}')));
@@ -39,6 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void _saveAnsGoToHome(User user) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setString('userInfo', user.userDataToString());
+    if (!mounted) return;
+
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const LoadingScreen()),
         (route) => false);
