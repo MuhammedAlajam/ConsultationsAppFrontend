@@ -4,6 +4,8 @@ import 'package:cons_frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../models/expert.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -98,6 +100,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 8),
                       doubleTextView('phone number', user?.phoneNumber ?? ''),
                       const SizedBox(height: 8),
+                      if (user?.roleType != 'user')
+                        Column(
+                          children: [
+                            doubleTextView('description',
+                                (user as Expert).description ?? ''),
+                            const SizedBox(height: 8),
+                            doubleTextView('rate', (user as Expert).rate ?? ''),
+                            const SizedBox(height: 8),
+                            doubleTextView('hourly rate',
+                                '${(user as Expert).hourlyRate ?? ''} USD'),
+                            const SizedBox(height: 8),
+                          ],
+                        ),
                     ],
                   ),
                 ),
