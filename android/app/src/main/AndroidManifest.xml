@@ -2,7 +2,7 @@
     package="com.example.cons_frontend">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="cons_frontend"
+        android:label="Consultations"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"

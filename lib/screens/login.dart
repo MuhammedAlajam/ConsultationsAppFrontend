@@ -1,4 +1,4 @@
-import 'package:cons_frontend/models/api_response.dart';
+import 'package:cons_frontend/models/apiResponse.dart';
 import 'package:cons_frontend/models/user.dart';
 import 'package:cons_frontend/screens/loading.dart';
 import 'package:cons_frontend/screens/signUpExpert.dart';

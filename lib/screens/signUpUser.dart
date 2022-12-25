@@ -1,4 +1,4 @@
-import 'package:cons_frontend/models/api_response.dart';
+import 'package:cons_frontend/models/apiResponse.dart';
 import 'package:cons_frontend/models/user.dart';
 import 'package:cons_frontend/screens/loading.dart';
 import 'package:cons_frontend/services/user_service.dart';
@@ -24,7 +24,7 @@ class _SignUpUserScreenState extends State<SignUpUserScreen> {
   TextEditingController phoneNumber = TextEditingController();
   bool loading = false;
 
-  void _SignUpUser() async {
+  void _signUpUser() async {
     ApiResponse response = await registerUser(
         username.text,
         firstName.text,
@@ -146,7 +146,7 @@ class _SignUpUserScreenState extends State<SignUpUserScreen> {
                 : buttonInverse('Sign up', () {
                     setState(() {
                       loading = true;
-                      _SignUpUser();
+                      _signUpUser();
                     });
                   }),
           ],

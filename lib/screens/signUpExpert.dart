@@ -1,4 +1,4 @@
-import 'package:cons_frontend/models/api_response.dart';
+import 'package:cons_frontend/models/apiResponse.dart';
 import 'package:cons_frontend/models/user.dart';
 import 'package:cons_frontend/screens/loading.dart';
 import 'package:cons_frontend/services/user_service.dart';
@@ -31,7 +31,7 @@ class _SignUpExpertScreenState extends State<SignUpExpertScreen> {
 
   bool loading = false;
 
-  void _SignUpExpert() async {
+  void _signUpExpert() async {
     List<String> consultationsList = [];
     for (int i = 0; i < consultations.length; i++) {
       consultationsList.add(consultations[i].text);
@@ -230,7 +230,7 @@ class _SignUpExpertScreenState extends State<SignUpExpertScreen> {
                 : buttonInverse('Sign up', () {
                     setState(() {
                       loading = true;
-                      _SignUpExpert();
+                      _signUpExpert();
                     });
                   }),
             const SizedBox(height: 32),
