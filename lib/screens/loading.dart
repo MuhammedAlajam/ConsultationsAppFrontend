@@ -25,8 +25,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
           MaterialPageRoute(builder: (context) => const LoginScreen()),
           (route) => false);
     } else {
-      user = User.fromJson(jsonDecode(userJson) as Map<dynamic, dynamic>);
-
+      var json = jsonDecode(userJson) as Map<dynamic, dynamic>;
+      if (json['role_type'] == 'user') {
+        user = User.fromJson(json);
+      } else {
+        user = Expert.fromJson(json);
+      }
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const Home()),
           (route) => false);
