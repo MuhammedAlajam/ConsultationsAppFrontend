@@ -12,7 +12,7 @@ class Expert extends User {
     this.hourlyRate,
   }) : super();
 
-  Expert.fromJson(Map<String, dynamic> json) {
+  Expert.fromJson(Map<dynamic, dynamic> json) {
     User.fromJson(json);
     description = json['expert_info']['description'];
     hourlyRate = json['expert_info']['hourly_rate'];
