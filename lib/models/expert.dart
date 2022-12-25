@@ -1,38 +1,35 @@
-class Expert {
-  int? id;
-  String? username;
-  String? first_name;
-  String? last_name;
-  String? country;
-  String? city;
-  String? token;
-  String? profile_photo;
-  String? phone_number;
-  int? wallet;
+import 'dart:convert';
 
-  // and so on
-  Expert(
-      {this.id,
-      this.username,
-      this.first_name,
-      this.last_name,
-      this.profile_photo,
-      this.country,
-      this.city,
-      this.wallet,
-      this.token});
+import 'package:cons_frontend/models/user.dart';
 
-  factory Expert.fromJson(Map<String, dynamic> json) {
-    return Expert(
-      id: json['user']['id'],
-      username: json['user']['username'],
-      first_name: json['user']['first_name'],
-      last_name: json['user']['last_name'],
-      profile_photo: json['user']['profile_photo'],
-      country: json['user']['country'],
-      city: json['user']['city'],
-      wallet: json['user']['wallet'],
-      token: json['token'],
-    );
+class Expert extends User {
+  String? description;
+  String? hourlyRate;
+  String? rate;
+
+  Expert({
+    this.description,
+    this.hourlyRate,
+  }) : super();
+
+  Expert.fromJson(Map<String, dynamic> json) {
+    User.fromJson(json);
+    description = json['expert_info']['description'];
+    hourlyRate = json['expert_info']['hourly_rate'];
+    rate = json['expert_info']['rate'];
+  }
+  @override
+  String userDataToString() {
+    var data = json.decode(super.userDataToString());
+    Map<String, dynamic> extra = {
+      'expert_info': {
+        'description': description,
+        'hourly_rate': hourlyRate,
+        'rate': rate
+      }
+    };
+    data.addAll(extra);
+
+    return jsonEncode(data);
   }
 }

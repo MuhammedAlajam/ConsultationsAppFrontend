@@ -1,6 +1,7 @@
-import 'package:cons_frontend/screens/home.dart';
-import 'package:cons_frontend/screens/loadingScreen.dart';
+import 'package:cons_frontend/screens/loading.dart';
 import 'package:flutter/material.dart';
+
+final ThemeData theme = ThemeData();
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +12,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(secondary: Colors.blue[800]),
+      ),
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: const LoadingScreen(),
     );
   }
 }

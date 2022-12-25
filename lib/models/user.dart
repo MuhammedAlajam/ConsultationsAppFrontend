@@ -1,38 +1,55 @@
+import 'dart:convert';
+
 class User {
-  int? id;
   String? username;
-  String? first_name;
-  String? last_name;
+  String? firstName;
+  String? lastName;
   String? country;
   String? city;
   String? token;
-  String? profile_photo;
-  String? phone_number;
+  String? profilePhoto;
+  String? phoneNumber;
+  String? roleType;
   int? wallet;
 
-  // and so on
-  User(
-      {this.id,
-      this.username,
-      this.first_name,
-      this.last_name,
-      this.profile_photo,
-      this.country,
-      this.city,
-      this.wallet,
-      this.token});
+  User({
+    this.username,
+    this.firstName,
+    this.lastName,
+    this.profilePhoto,
+    this.country,
+    this.city,
+    this.wallet,
+    this.token,
+    this.phoneNumber,
+    this.roleType,
+  });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['user']['id'],
-      username: json['user']['username'],
-      first_name: json['user']['first_name'],
-      last_name: json['user']['last_name'],
-      profile_photo: json['user']['profile_photo'],
-      country: json['user']['country'],
-      city: json['user']['city'],
-      wallet: json['user']['wallet'],
-      token: json['token'],
-    );
+  User.fromJson(Map<dynamic, dynamic> json) {
+    username = json['user']['name'];
+    firstName = json['user']['first_name'];
+    lastName = json['user']['last_name'];
+    profilePhoto = json['user']['profile_photo'];
+    country = json['user']['country'];
+    city = json['user']['city'];
+    phoneNumber = json['user']['phone_number'];
+    roleType = json['user']['role_type'];
+    token = json['token'];
+  }
+
+  String userDataToString() {
+    return jsonEncode({
+      'user': {
+        'name': username,
+        'first_name': firstName,
+        'last_name': lastName,
+        'profile_photo': profilePhoto,
+        'country': country,
+        'city': city,
+        'phone_number': phoneNumber,
+        'role_type': roleType,
+      },
+      'token': token,
+    });
   }
 }

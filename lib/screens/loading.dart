@@ -1,11 +1,13 @@
-import 'package:cons_frontend/models/api_response.dart';
-import 'package:cons_frontend/screens/loginScreen.dart';
-import 'package:cons_frontend/services/expert_service.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:cons_frontend/models/expert.dart';
+import 'package:cons_frontend/models/user.dart';
+import 'package:cons_frontend/screens/login.dart';
 import 'package:cons_frontend/services/user_service.dart';
 import 'package:flutter/material.dart';
-
-import '../constant.dart';
 import 'home.dart';
+
+User? user;
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -16,12 +18,19 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   void loadUserInfo() async {
-    String token = await getToken();
-    if (token == '') {
+    String userJson = await getUserDataFromMemory();
+
+    if (userJson == '') {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginScreen()),
           (route) => false);
     } else {
+      user = User.fromJson(jsonDecode(userJson) as Map<dynamic, dynamic>);
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const Home()),
+          (route) => false);
+      /*
       ApiResponse response = await getDataUser();
       if (response.error == null) {
         Navigator.of(context).pushAndRemoveUntil(
@@ -40,6 +49,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           ),
         );
       }
+      */
     }
   }
 
@@ -55,7 +65,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       height: MediaQuery.of(context).size.height,
       color: Colors.white,
       child: Center(
-        child: CircularProgressIndicator(color: Colors.teal.shade300),
+        child: CircularProgressIndicator(color: Colors.blue[800]),
       ),
     );
   }

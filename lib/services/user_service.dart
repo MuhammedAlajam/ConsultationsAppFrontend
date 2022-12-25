@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:cons_frontend/constant.dart';
 import 'package:cons_frontend/models/api_response.dart';
-import 'package:cons_frontend/models/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,18 +14,14 @@ Future<ApiResponse> loginUser(String username, String password) async {
       Uri.parse(userLoginUrl),
       headers: {'Accept': 'application/json'},
       body: {
-        'username': username,
+        'name': username,
         'password': password,
       },
     );
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = User.fromJson(jsonDecode(response.body));
-        break;
-      case 422:
-        final errors = jsonDecode(response.body)['errors'];
-        apiResponse.error = errors[errors.keys.elementAt(0)][0];
+        apiResponse.data = jsonDecode(response.body);
         break;
       case 403:
         apiResponse.error = jsonDecode(response.body)['message'];
@@ -39,19 +33,18 @@ Future<ApiResponse> loginUser(String username, String password) async {
   } catch (e) {
     apiResponse.error = serverError;
   }
-
   return apiResponse;
 }
 
 // register
 Future<ApiResponse> registerUser(
     String username,
-    String first_name,
-    String last_name,
+    String firstName,
+    String lastName,
     String country,
     String city,
-    String profile_photo,
-    String phone_number,
+    String profilePhoto,
+    String phoneNumber,
     String password) async {
   ApiResponse apiResponse = ApiResponse();
 
@@ -60,20 +53,24 @@ Future<ApiResponse> registerUser(
       Uri.parse(userRegisterUrl),
       headers: {'Accept': 'application/json'},
       body: {
-        'username': username,
+        'name': username,
         'password': password,
-        'first_name': first_name,
-        'last_name': last_name,
+        'first_name': firstName,
+        'last_name': lastName,
         'country': country,
         'city': city,
-        'profile_photo': profile_photo,
-        'phone_number': phone_number
+        'profile_photo': profilePhoto,
+        'phone_number': phoneNumber,
+        'wallet': '0',
       },
     );
 
+    debugPrint(response.statusCode.toString());
+    debugPrint(response.body.toString());
+
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = User.fromJson(jsonDecode(response.body));
+        apiResponse.data = jsonDecode(response.body);
         break;
       case 422:
         final errors = jsonDecode(response.body)['errors'];
@@ -93,49 +90,13 @@ Future<ApiResponse> registerUser(
   return apiResponse;
 }
 
-// get user info
-Future<ApiResponse> getDataUser() async {
-  ApiResponse apiResponse = ApiResponse();
-
-  try {
-    String token = await getToken();
-    final response = await http.post(
-      Uri.parse(userInfoUrl),
-      headers: {'Accept': 'application/json', 'Authorization': 'Bearer $token'},
-    );
-
-    switch (response.statusCode) {
-      case 200:
-        apiResponse.data = User.fromJson(jsonDecode(response.body));
-        break;
-      case 401:
-        apiResponse.error = unauthorized;
-        break;
-      default:
-        apiResponse.error = someThingWentWront;
-        break;
-    }
-  } catch (e) {
-    apiResponse.error = serverError;
-  }
-
-  return apiResponse;
-}
-
-// get token
-Future<String> getToken() async {
+Future<String> getUserDataFromMemory() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  return pref.getString('token') ?? '';
-}
-
-// get user id
-Future<int> getId() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  return pref.getInt('id') ?? 0;
+  return pref.getString('userInfo') ?? '';
 }
 
 // logout
 Future<bool> logout() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  return await pref.remove('token');
+  return await pref.remove('userInfo');
 }
