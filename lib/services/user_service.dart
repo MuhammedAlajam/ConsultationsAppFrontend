@@ -14,7 +14,7 @@ Future<ApiResponse> loginUser(String username, String password) async {
       Uri.parse(userLoginUrl),
       headers: {'Accept': 'application/json'},
       body: {
-        'name': username,
+        'username': username,
         'password': password,
       },
     );
@@ -33,6 +33,7 @@ Future<ApiResponse> loginUser(String username, String password) async {
   } catch (e) {
     apiResponse.error = serverError;
   }
+
   return apiResponse;
 }
 
@@ -43,7 +44,6 @@ Future<ApiResponse> registerUser(
     String lastName,
     String country,
     String city,
-    String profilePhoto,
     String phoneNumber,
     String password) async {
   ApiResponse apiResponse = ApiResponse();
@@ -53,20 +53,16 @@ Future<ApiResponse> registerUser(
       Uri.parse(userRegisterUrl),
       headers: {'Accept': 'application/json'},
       body: {
-        'name': username,
+        'username': username,
         'password': password,
         'first_name': firstName,
         'last_name': lastName,
         'country': country,
         'city': city,
-        'profile_photo': profilePhoto,
         'phone_number': phoneNumber,
         'wallet': '0',
       },
     );
-
-    debugPrint(response.statusCode.toString());
-    debugPrint(response.body.toString());
 
     switch (response.statusCode) {
       case 200:

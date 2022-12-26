@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:consultations/models/user.dart';
+import 'package:flutter/cupertino.dart';
 
 class Expert extends User {
   String? description;
   String? hourlyRate;
-  String? rate;
 
   Expert({
     this.description,
@@ -13,23 +12,36 @@ class Expert extends User {
   }) : super();
 
   Expert.fromJson(Map<dynamic, dynamic> json) {
-    User.fromJson(json);
-    description = json['expert_info']['description'];
-    hourlyRate = json['expert_info']['hourly_rate'];
-    rate = json['expert_info']['rate'];
+    username = json['user']['username'];
+    firstName = json['user']['first_name'];
+    lastName = json['user']['last_name'];
+    country = json['user']['country'];
+    city = json['user']['city'];
+    phoneNumber = json['user']['phone_number'];
+    wallet = json['user']['wallet'];
+    roleType = json['user']['role_type'];
+    token = json['token'];
+    description = json['user']['description'];
+    hourlyRate = json['user']['hourly_rate'];
   }
-  @override
-  String userDataToString() {
-    var data = json.decode(super.userDataToString());
-    Map<String, dynamic> extra = {
-      'expert_info': {
+
+  String expertDataToString() {
+    String ret = jsonEncode({
+      'user': {
+        'username': username,
+        'first_name': firstName,
+        'last_name': lastName,
+        'country': country,
+        'city': city,
+        'phone_number': phoneNumber,
+        'wallet': wallet,
+        'role_type': roleType,
         'description': description,
         'hourly_rate': hourlyRate,
-        'rate': rate
-      }
-    };
-    data.addAll(extra);
+      },
+      'token': token,
+    });
 
-    return jsonEncode(data);
+    return ret;
   }
 }

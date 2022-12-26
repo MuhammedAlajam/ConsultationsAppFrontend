@@ -31,7 +31,6 @@ class _SignUpUserScreenState extends State<SignUpUserScreen> {
         lastName.text,
         country.text,
         city.text,
-        "path",
         phoneNumber.text,
         password.text);
 

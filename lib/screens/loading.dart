@@ -26,11 +26,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
           (route) => false);
     } else {
       var json = jsonDecode(userJson) as Map<dynamic, dynamic>;
-      if (json['role_type'] == 'user') {
+
+      if (json['user']['role_type'] == 'user') {
         user = User.fromJson(json);
       } else {
         user = Expert.fromJson(json);
       }
+
       if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const Home()),
@@ -60,8 +62,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   void initState() {
-    loadUserInfo();
     super.initState();
+    loadUserInfo();
   }
 
   @override

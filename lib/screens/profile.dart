@@ -105,8 +105,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             doubleTextView('description',
                                 (user as Expert).description ?? ''),
                             const SizedBox(height: 8),
-                            doubleTextView('rate', (user as Expert).rate ?? ''),
-                            const SizedBox(height: 8),
                             doubleTextView('hourly rate',
                                 '${(user as Expert).hourlyRate ?? ''} USD'),
                             const SizedBox(height: 8),

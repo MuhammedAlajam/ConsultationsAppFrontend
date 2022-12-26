@@ -1,4 +1,9 @@
+import 'package:consultations/models/api_response.dart';
+import 'package:consultations/screens/experts.dart';
 import 'package:flutter/material.dart';
+
+import '../constant.dart';
+import '../services/consultation_service.dart';
 
 class ConsultationsScreen extends StatefulWidget {
   const ConsultationsScreen({super.key});
@@ -7,70 +12,47 @@ class ConsultationsScreen extends StatefulWidget {
   State<ConsultationsScreen> createState() => _ConsultationsScreenState();
 }
 
-Widget consultationCard(String name, int id) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 50),
-    child: GestureDetector(
-      onTap: () => {
-        // TODO
-        //1: send consultation id, get list of experts, close consultaions.
-        //2: view experts list instead of consultaions list
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.yellow.shade600,
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Center(
-            child: Text(
-              name,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
 class _ConsultationsScreenState extends State<ConsultationsScreen> {
-  // TODO make it dynamic (get consultations by request)
+  List<String> consultationsList = [];
+  bool foundData = false;
 
-  List<String> consultationsList = [
-    'Medical',
-    'Familial',
-    'Business',
-    'dsfvfsdfffsds',
-    'edsfffafdd',
-    'xxxxxxxxxxxx',
-    'Business',
-    'dsfvfsdfffsds',
-    'edsfffafdd',
-    'Business',
-    'dsfvfsdfffsds',
-    'edsfffafdd',
-    'Business',
-    'dsfvfsdfffsds',
-    'edsfffafdd',
-    'Business',
-    'dsfvfsdfffsds',
-    'edsfffafdd'
-  ];
+  void _getConsultationsList() async {
+    ApiResponse response = await getConsultations();
+
+    if (response.error == null) {
+      foundData = true;
+      consultationsList = response.data as List<String>;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getConsultationsList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView(
-        children: <Widget>[
-          for (int i = 0; i < consultationsList.length; i++)
-            consultationCard(consultationsList[i], i + 1),
-        ],
-      ),
+      child: !foundData
+          ? const Text("Sorry, No data found !")
+          : ListView(
+              children: [
+                for (int i = 0; i < consultationsList.length; i++)
+                  consultationCard(
+                    consultationsList[i],
+                    i + 1,
+                    () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ExpertsScreen(
+                                  path: consultaionExpertsUrl,
+                                  data: (i + 1).toString())));
+                    },
+                  ),
+              ],
+            ),
     );
   }
 }

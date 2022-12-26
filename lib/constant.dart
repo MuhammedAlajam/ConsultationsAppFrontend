@@ -7,19 +7,22 @@ const baseUrl = 'http://192.168.43.51:8000/api/';
 // user
 const userRegisterUrl = '${baseUrl}users/register';
 const userLoginUrl = '${baseUrl}login';
-const userInfoUrl = '${baseUrl}users/info/';
 
 // expert
 const expertRegisterUrl = '${baseUrl}experts/register';
-const expertLoginUrl = '${baseUrl}experts/login';
-const expertInfoUrl = '${baseUrl}experts/';
-const expertsOfConsultation = '${baseUrl}experts/searchByConsultation/';
+const favoriteExpertsUrl = '${baseUrl}favorites';
+const searchOnExpertsUrl = '${baseUrl}experts/search/';
+const consultaionExpertsUrl = '${baseUrl}experts/searchByConsultation/';
+
+// consultation
+const consultationsUrl = '${baseUrl}consultations/all';
 
 // --------------Errors-----------
 
 const serverError = 'server error !!';
 const someThingWentWront = 'sorry, something went wrong !';
 const unauthorized = 'unauthorized !';
+const notFound = 'sorry, data not found!';
 
 // ----------------widgets---------------------
 
@@ -154,6 +157,33 @@ Widget doubleTextView(String text1, String text2) {
           Text(text2,
               style: const TextStyle(color: Colors.black, fontSize: 16)),
         ],
+      ),
+    ),
+  );
+}
+
+Widget consultationCard(String name, int id, void Function() event) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 50),
+    child: GestureDetector(
+      onTap: event,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.yellow.shade600,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Center(
+            child: Text(
+              name,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
       ),
     ),
   );

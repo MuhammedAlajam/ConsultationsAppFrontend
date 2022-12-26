@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:consultations/models/api_response.dart';
-import 'package:consultations/models/user.dart';
 import 'package:consultations/screens/loading.dart';
-import 'package:consultations/services/user_service.dart';
+import 'package:consultations/services/expert_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constant.dart';
+import '../models/expert.dart';
 
 class SignUpExpertScreen extends StatefulWidget {
   const SignUpExpertScreen({super.key});
@@ -35,20 +37,23 @@ class _SignUpExpertScreenState extends State<SignUpExpertScreen> {
     for (int i = 0; i < consultations.length; i++) {
       consultationsList.add(consultations[i].text);
     }
-    // remaining : description, hourly rate
 
-    ApiResponse response = await registerUser(
-        username.text,
-        firstName.text,
-        lastName.text,
-        country.text,
-        city.text,
-        "path",
-        phoneNumber.text,
-        password.text);
+    // remaining : description, hourly rate
+    ApiResponse response = await registerExpert(
+      username.text,
+      firstName.text,
+      lastName.text,
+      country.text,
+      city.text,
+      phoneNumber.text,
+      password.text,
+      description.text,
+      hourlyRate.text,
+      jsonEncode(consultationsList),
+    );
 
     if (response.error == null) {
-      _saveAnsGoToHome(User.fromJson(response.data as Map<String, dynamic>));
+      _saveAnsGoToHome(Expert.fromJson(response.data as Map<dynamic, dynamic>));
     } else {
       setState(() {
         loading = false;
@@ -56,9 +61,9 @@ class _SignUpExpertScreenState extends State<SignUpExpertScreen> {
     }
   }
 
-  void _saveAnsGoToHome(User user) async {
+  void _saveAnsGoToHome(Expert expert) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString('userInfo', user.userDataToString());
+    await pref.setString('userInfo', expert.expertDataToString());
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const LoadingScreen()),

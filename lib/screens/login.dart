@@ -1,4 +1,5 @@
 import 'package:consultations/models/api_response.dart';
+import 'package:consultations/models/expert.dart';
 import 'package:consultations/models/user.dart';
 import 'package:consultations/screens/loading.dart';
 import 'package:consultations/screens/signup_expert.dart';
@@ -24,8 +25,25 @@ class _LoginScreenState extends State<LoginScreen> {
     ApiResponse response = await loginUser(username.text, password.text);
 
     if (response.error == null) {
-      debugPrint('I reached here !!!');
-      _saveAnsGoToHome(User.fromJson(response.data as Map<String, dynamic>));
+      SharedPreferences pref = await SharedPreferences.getInstance();
+
+      if (User.fromJson(response.data as Map<dynamic, dynamic>).roleType ==
+          'user') {
+        pref.setString(
+            'userInfo',
+            User.fromJson(response.data as Map<dynamic, dynamic>)
+                .userDataToString());
+      } else {
+        pref.setString(
+            'userInfo',
+            Expert.fromJson(response.data as Map<dynamic, dynamic>)
+                .expertDataToString());
+      }
+
+      if (!mounted) return;
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LoadingScreen()),
+          (route) => false);
     } else {
       setState(() {
         loading = false;
@@ -35,16 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.blue[900],
           content: Text('${response.error}')));
     }
-  }
-
-  void _saveAnsGoToHome(User user) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString('userInfo', user.userDataToString());
-    if (!mounted) return;
-
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const LoadingScreen()),
-        (route) => false);
   }
 
   @override
