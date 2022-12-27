@@ -112,10 +112,11 @@ class _HomeState extends State<Home> {
                                 borderRadius: BorderRadius.circular(24),
                                 color: Colors.blue[100],
                               ),
-                              child: TextFormField(
+                              child: TextField(
                                 controller: searchBox,
                                 cursorColor: Colors.white,
                                 decoration: InputDecoration(
+                                  border: InputBorder.none,
                                   contentPadding: const EdgeInsets.only(
                                     top: 15,
                                   ),
