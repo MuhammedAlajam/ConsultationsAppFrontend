@@ -1,4 +1,5 @@
 import 'package:consultations/constant.dart';
+import 'package:consultations/screens/experts.dart';
 import 'package:consultations/screens/loading.dart';
 import 'package:consultations/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ExpertsScreen(
+                                    path: favoriteExpertsUrl, data: '')));
+                      },
                       icon: const Icon(
                         Icons.star,
                         color: Colors.white,
