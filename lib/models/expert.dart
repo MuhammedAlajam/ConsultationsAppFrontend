@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:consultations/models/user.dart';
-import 'package:flutter/cupertino.dart';
 
 class Expert extends User {
   String? description;
