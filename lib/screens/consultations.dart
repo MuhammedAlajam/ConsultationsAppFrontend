@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:consultations/models/api_response.dart';
 import 'package:consultations/screens/experts.dart';
 import 'package:flutter/material.dart';
@@ -13,34 +15,37 @@ class ConsultationsScreen extends StatefulWidget {
 }
 
 class _ConsultationsScreenState extends State<ConsultationsScreen> {
-  List<String> consultationsList = [];
-  bool foundData = false;
+  List<dynamic> consultationsList = [];
+  bool loading = false;
 
   void _getConsultationsList() async {
     ApiResponse response = await getConsultations();
 
     if (response.error == null) {
-      foundData = true;
-      consultationsList = response.data as List<String>;
+      loading = false;
+      setState(() {
+        consultationsList = response.data as List<dynamic>;
+      });
     }
   }
 
   @override
   void initState() {
     super.initState();
+    loading = true;
     _getConsultationsList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: !foundData
-          ? const Text("Sorry, No data found !")
+      child: loading
+          ? const CircularProgressIndicator(color: Colors.blue)
           : ListView(
               children: [
                 for (int i = 0; i < consultationsList.length; i++)
                   consultationCard(
-                    consultationsList[i],
+                    consultationsList.elementAt(i).toString(),
                     i + 1,
                     () {
                       Navigator.push(
