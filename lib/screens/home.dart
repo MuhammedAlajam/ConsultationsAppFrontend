@@ -1,5 +1,6 @@
 import 'package:consultations/constant.dart';
 import 'package:consultations/screens/conversations.dart';
+import 'package:consultations/screens/experts.dart';
 import 'package:consultations/screens/profile.dart';
 import 'package:consultations/screens/user_booked_times.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class _HomeState extends State<Home> {
     const ConversationsScreen()
   ];
   int pageInd = 0;
+  TextEditingController searchBox = TextEditingController();
+  String searchText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -91,27 +94,66 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   const SizedBox(height: 25),
+                  // begin container
                   if (pageInd == 0)
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.blue[600],
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(24),
                       ),
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Row(
-                        children: const [
-                          Icon(
-                            Icons.search,
-                            color: Colors.white,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24),
+                                color: Colors.blue[100],
+                              ),
+                              child: TextFormField(
+                                controller: searchBox,
+                                cursorColor: Colors.white,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.only(
+                                    top: 15,
+                                  ),
+                                  prefixIcon: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Icon(
+                                      Icons.search,
+                                      color: Colors.blue[800],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          SizedBox(width: 5),
-                          Text(
-                            'Search on expert',
-                            style: TextStyle(color: Colors.white),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {},
+                            icon: const Icon(Icons.display_settings_rounded,
+                                color: Colors.white),
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ExpertsScreen(
+                                        path: searchOnExpertsUrl,
+                                        data: searchBox.text)),
+                              );
+                            },
+                            icon: const Icon(Icons.check, color: Colors.white),
                           ),
                         ],
                       ),
                     ),
+
+                  // end of container ****
                 ],
               ),
             ),

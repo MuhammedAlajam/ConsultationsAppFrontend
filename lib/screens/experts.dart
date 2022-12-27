@@ -21,8 +21,6 @@ class _ExpertsScreenState extends State<ExpertsScreen> {
     if (apiResponse.error == null) {
       setState(() {
         info = apiResponse.data as List<dynamic>;
-        debugPrint(apiResponse.runtimeType.toString());
-        debugPrint(info.elementAt(0)['username']);
       });
     }
   }
