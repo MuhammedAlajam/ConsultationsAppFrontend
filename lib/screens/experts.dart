@@ -13,13 +13,17 @@ class ExpertsScreen extends StatefulWidget {
 class _ExpertsScreenState extends State<ExpertsScreen> {
   String path, data;
   _ExpertsScreenState(this.path, this.data);
-  var info;
+  List<dynamic> info = [];
 
   void _getExperts() async {
     ApiResponse apiResponse = await getExperts(path, data);
 
     if (apiResponse.error == null) {
-      info = apiResponse.data;
+      setState(() {
+        info = apiResponse.data as List<dynamic>;
+        debugPrint(apiResponse.runtimeType.toString());
+        debugPrint(info.elementAt(0)['username']);
+      });
     }
   }
 
@@ -48,13 +52,13 @@ class _ExpertsScreenState extends State<ExpertsScreen> {
               leading: const CircleAvatar(
                   backgroundImage: AssetImage('images/login.png'), radius: 40),
               title: Text(
-                ('${info[i]['first_name']!} ${info[i]['last_name']!}'),
+                ('${info.elementAt(i)['first_name'].toString()} ${info.elementAt(i)['last_name'].toString()}'),
                 style: const TextStyle(
                     color: Colors.black, fontWeight: FontWeight.bold),
               ),
               subtitle: Row(
                 children: [
-                  Text(info[i]['rate']!),
+                  Text(info.elementAt(i)['rate'].toString()),
                   const Icon(
                     Icons.star,
                     color: Colors.amber,
@@ -62,7 +66,7 @@ class _ExpertsScreenState extends State<ExpertsScreen> {
                   )
                 ],
               ),
-              trailing: Text(info[i]['hourly_rate']!),
+              trailing: Text(info.elementAt(i)['hourly_rate'].toString()),
             );
           },
         ),

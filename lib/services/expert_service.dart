@@ -14,10 +14,9 @@ Future<ApiResponse> getExperts(String path, String data) async {
 
   ApiResponse apiResponse = ApiResponse();
   try {
-    final response = await http.post(
+    final response = await http.get(
       Uri.parse(path),
       headers: header,
-      body: {},
     );
 
     switch (response.statusCode) {
