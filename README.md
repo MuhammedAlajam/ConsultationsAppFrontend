@@ -1,3 +1,3 @@
 # Consultation app
 
-A new Flutter project for university project.
+A new Flutter application for a university project.
