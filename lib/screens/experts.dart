@@ -1,4 +1,5 @@
 import 'package:consultations/models/api_response.dart';
+import 'package:consultations/screens/expert_profile.dart';
 import 'package:consultations/services/expert_service.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,12 @@ class _ExpertsScreenState extends State<ExpertsScreen> {
           itemBuilder: (context, i) {
             return ListTile(
               onTap: () {
-                //TODO
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ExpertProfileScreen(
+                              idExpert: info.elementAt(i)['id'],
+                            )));
               },
               tileColor: Colors.white,
               leading: const CircleAvatar(

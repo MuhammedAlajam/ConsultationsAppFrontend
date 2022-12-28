@@ -7,11 +7,15 @@ const baseUrl = 'http://192.168.43.51:8000/api/';
 // user
 const userRegisterUrl = '${baseUrl}users/register';
 const userLoginUrl = '${baseUrl}login';
+const userBookedTimes = '${baseUrl}users/bookedTimes';
+const flipFavUrl = '${baseUrl}users/flip_favorite/'; // + expert_id
+const rateExpertUrl = '${baseUrl}experts/rate/'; // + expert_id
 
 // expert
 const expertRegisterUrl = '${baseUrl}experts/register';
 const favoriteExpertsUrl = '${baseUrl}favorites';
 const searchOnExpertsUrl = '${baseUrl}experts/search/';
+const expertProfile = '${baseUrl}experts/';
 const consultaionExpertsUrl = '${baseUrl}experts/searchByConsultation/';
 
 // consultation

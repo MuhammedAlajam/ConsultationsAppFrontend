@@ -4,10 +4,35 @@ import '../models/api_response.dart';
 import 'package:http/http.dart' as http;
 import '../screens/loading.dart';
 
+Future<ApiResponse> getExpertProfile(String id) async {
+  ApiResponse apiResponse = ApiResponse();
+  try {
+    final response = await http.get(
+      Uri.parse(expertProfile),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${user?.token}'
+      },
+    );
+
+    switch (response.statusCode) {
+      case 200:
+        apiResponse.data = jsonDecode(response.body);
+        break;
+      case 400:
+        apiResponse.error = notFound;
+        break;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
+  return apiResponse;
+}
+
 Future<ApiResponse> getExperts(String path, String data) async {
   var header = {'Accept': 'application/json'};
   if (data == '') {
-    header.addAll({'Authorization': 'Bearer ${user?.token}'});
+    header.addAll({});
   } else {
     path = path + data;
   }

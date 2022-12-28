@@ -1,4 +1,7 @@
 import 'package:consultations/constant.dart';
+import 'package:consultations/models/api_response.dart';
+import 'package:consultations/screens/expert_profile.dart';
+import 'package:consultations/services/user_service.dart';
 import 'package:flutter/material.dart';
 
 class BookedTimesUserScreen extends StatefulWidget {
@@ -10,158 +13,20 @@ class BookedTimesUserScreen extends StatefulWidget {
 
 class _BookedTimesUserScreenState extends State<BookedTimesUserScreen> {
   List<dynamic> bookedTimes = [];
-  bool loading = true;
+  bool loading = false;
 
   void _getTimes() async {
-    loading = false;
-    bookedTimes = [
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-      {
-        'date': '27/12/2022',
-        'hour': '08:00',
-        'expert_first_name': 'Ibrahim',
-        'expert_last_name': 'hammash',
-        'expert_id': '1',
-      },
-    ];
+    ApiResponse response = await getUserBookedTimes();
+
+    if (response.error == null) {
+      loading = false;
+      bookedTimes = response.data as List<dynamic>;
+    }
   }
 
   @override
   void initState() {
     super.initState();
-
     loading = true;
     _getTimes();
   }
@@ -180,7 +45,12 @@ class _BookedTimesUserScreenState extends State<BookedTimesUserScreen> {
                       bookedTimes.elementAt(i)['hour'],
                       '${bookedTimes.elementAt(i)['expert_first_name']} ${bookedTimes.elementAt(i)['expert_last_name']}',
                       () {
-                    // TODO go to expert page
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ExpertProfileScreen(
+                                  idExpert: bookedTimes.elementAt(i)['id'],
+                                )));
                   })
               ],
             ),

@@ -1,24 +1,26 @@
 import 'package:consultations/constant.dart';
+import 'package:consultations/models/api_response.dart';
+import 'package:consultations/screens/new_appointment.dart';
+import 'package:consultations/services/expert_service.dart';
+import 'package:consultations/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ExpertProfileScreen extends StatefulWidget {
-  const ExpertProfileScreen({super.key});
+  final String idExpert;
+  const ExpertProfileScreen({super.key, required this.idExpert});
 
   @override
-  State<ExpertProfileScreen> createState() => _ExpertProfileScreenState();
+  State<ExpertProfileScreen> createState() =>
+      _ExpertProfileScreenState(idExpert);
 }
 
 class _ExpertProfileScreenState extends State<ExpertProfileScreen> {
-  late Map<String, dynamic> data;
-  String consultations = '';
-  bool rated = false;
-  bool isFavorite = false;
-  double rate = 0;
+  String idExpert;
+  _ExpertProfileScreenState(this.idExpert);
 
-  @override
-  Widget build(BuildContext context) {
-    data = {
+/*
+  data = {
       'first_name': 'Muhammed',
       'last_name': 'Alajam',
       'country': 'Syria',
@@ -31,7 +33,34 @@ class _ExpertProfileScreenState extends State<ExpertProfileScreen> {
       'available_times': 'later',
       'is_favorite': true,
     };
+ */
 
+  late Map<String, dynamic> data;
+  String consultations = '';
+  bool rated = false;
+  bool isFavorite = false;
+  double rate = 0;
+
+  void _getExpertData() async {
+    ApiResponse response = await getExpertProfile(idExpert);
+    if (response.error == null) {
+      data = response.data as Map<String, dynamic>;
+      if (data['is_favorite']) isFavorite = true;
+    }
+  }
+
+  void flipfav() async {
+    await flipFavorite(data['id']);
+  }
+
+  @override
+  void initState() {
+    _getExpertData();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     List<String> consultationsList = data['consultations'] as List<String>;
     consultations = '';
     for (int i = 0; i < consultationsList.length; i++) {
@@ -83,8 +112,8 @@ class _ExpertProfileScreenState extends State<ExpertProfileScreen> {
                               height: 20,
                               child: RawMaterialButton(
                                 onPressed: () {
-                                  // TODO add to or remove from  favorite
                                   setState(() {
+                                    flipfav();
                                     isFavorite = !isFavorite;
                                   });
                                 },
@@ -151,7 +180,12 @@ class _ExpertProfileScreenState extends State<ExpertProfileScreen> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        // TODO
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewAppointmentScreen(
+                                      expertId: data['id'],
+                                    )));
                       },
                       child: const Text(
                         'Book an appointment',
@@ -223,8 +257,8 @@ class _ExpertProfileScreenState extends State<ExpertProfileScreen> {
                           style: const TextStyle(color: Colors.amber),
                         ),
                         GestureDetector(
-                          onTap: (() => setState(() {
-                                // TODO  decrease rating_sum of this expert by $rate
+                          onTap: (() => setState(() async {
+                                unRateExpert(data['id'], rate.toString());
                                 rated = false;
                               })),
                           child: const Text(
@@ -243,8 +277,8 @@ class _ExpertProfileScreenState extends State<ExpertProfileScreen> {
                             const Icon(Icons.star_border, color: Colors.amber),
                       ),
                       onRatingUpdate: (rating) {
-                        // TODO
-                        setState(() {
+                        setState(() async {
+                          await rateExpert(data['id'], rating.toString());
                           rated = true;
                           rate = rating;
                         });
