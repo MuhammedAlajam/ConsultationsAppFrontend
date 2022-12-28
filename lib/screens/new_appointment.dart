@@ -6,13 +6,14 @@ class NewAppointmentScreen extends StatefulWidget {
 
   @override
   State<NewAppointmentScreen> createState() =>
+      // ignore: no_logic_in_create_state
       _NewAppointmentScreenState(expertId);
 }
 
 class _NewAppointmentScreenState extends State<NewAppointmentScreen> {
   String expertId;
   _NewAppointmentScreenState(this.expertId);
-
+  // TODO full new appointment screen
   @override
   Widget build(BuildContext context) {
     return Container();

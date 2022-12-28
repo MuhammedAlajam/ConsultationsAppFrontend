@@ -8,6 +8,8 @@ class ConversationsScreen extends StatefulWidget {
 }
 
 class _ConversationsScreenState extends State<ConversationsScreen> {
+  // TODO : full conversations screen
+
   @override
   Widget build(BuildContext context) {
     return Container();

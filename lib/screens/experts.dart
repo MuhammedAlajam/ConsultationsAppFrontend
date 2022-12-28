@@ -8,6 +8,7 @@ class ExpertsScreen extends StatefulWidget {
   const ExpertsScreen({super.key, required this.path, required this.data});
 
   @override
+  // ignore: no_logic_in_create_state
   State<ExpertsScreen> createState() => _ExpertsScreenState(path, data);
 }
 

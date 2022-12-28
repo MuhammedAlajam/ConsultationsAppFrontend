@@ -4,13 +4,18 @@ import 'package:consultations/constant.dart';
 import 'package:consultations/models/api_response.dart';
 import 'package:http/http.dart' as http;
 
+import '../screens/loading.dart';
+
 Future<ApiResponse> getConsultations() async {
   ApiResponse apiResponse = ApiResponse();
 
   try {
     final response = await http.get(
       Uri.parse(consultationsUrl),
-      headers: {'Accept': 'application/json'},
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${user?.token}'
+      },
     );
 
     switch (response.statusCode) {

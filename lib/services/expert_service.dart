@@ -30,10 +30,7 @@ Future<ApiResponse> getExpertProfile(String id) async {
 }
 
 Future<ApiResponse> getExperts(String path, String data) async {
-  var header = {'Accept': 'application/json'};
-  if (data == '') {
-    header.addAll({});
-  } else {
+  if (data != '') {
     path = path + data;
   }
 
@@ -41,7 +38,10 @@ Future<ApiResponse> getExperts(String path, String data) async {
   try {
     final response = await http.get(
       Uri.parse(path),
-      headers: header,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${user?.token}'
+      },
     );
 
     switch (response.statusCode) {
