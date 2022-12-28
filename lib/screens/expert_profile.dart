@@ -1,11 +1,6 @@
 import 'package:consultations/constant.dart';
-import 'package:consultations/main.dart';
-import 'package:consultations/screens/experts.dart';
-import 'package:consultations/screens/loading.dart';
-import 'package:consultations/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../models/expert.dart';
 
 class ExpertProfileScreen extends StatefulWidget {
   const ExpertProfileScreen({super.key});

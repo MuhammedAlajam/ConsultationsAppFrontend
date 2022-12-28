@@ -37,26 +37,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const Home()),
           (route) => false);
-      /*
-      ApiResponse response = await getDataUser();
-      if (response.error == null) {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const Home()),
-            (route) => false);
-      } else if (response.error == unauthorized) {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
-            (route) => false);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '${response.error}',
-            ),
-          ),
-        );
-      }
-      */
     }
   }
 

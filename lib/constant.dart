@@ -188,3 +188,49 @@ Widget consultationCard(String name, int id, void Function() event) {
     ),
   );
 }
+
+Widget userTimeCard(
+    String date, String hour, String expertName, void Function() event) {
+  return GestureDetector(
+    onTap: event,
+    child: Container(
+      margin: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.yellow[800],
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            expertName,
+            style: const TextStyle(color: Colors.white),
+          ),
+          const Text(
+            '|',
+            style: TextStyle(color: Colors.white),
+          ),
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                color: Colors.yellow[100],
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              children: [
+                Text(
+                  date,
+                  style: const TextStyle(color: Colors.black),
+                ),
+                Text(
+                  hour,
+                  style: const TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
