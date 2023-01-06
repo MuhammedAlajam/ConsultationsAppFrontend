@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'consultations.dart';
 import 'loading.dart';
 
+String searchString = '';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -113,6 +115,9 @@ class _HomeState extends State<Home> {
                                 color: Colors.blue[100],
                               ),
                               child: TextField(
+                                onChanged: ((text) {
+                                  searchText = text;
+                                }),
                                 controller: searchBox,
                                 cursorColor: Colors.white,
                                 decoration: InputDecoration(
@@ -130,12 +135,6 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
-                          ),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {},
-                            icon: const Icon(Icons.display_settings_rounded,
-                                color: Colors.white),
                           ),
                           IconButton(
                             padding: EdgeInsets.zero,

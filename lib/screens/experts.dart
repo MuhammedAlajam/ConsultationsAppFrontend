@@ -50,7 +50,7 @@ class _ExpertsScreenState extends State<ExpertsScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ExpertProfileScreen(
-                              idExpert: info.elementAt(i)['id'],
+                              idExpert: info.elementAt(i)['id'].toString(),
                             )));
               },
               tileColor: Colors.white,

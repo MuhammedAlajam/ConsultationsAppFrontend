@@ -1,5 +1,6 @@
 import 'package:consultations/models/api_response.dart';
 import 'package:consultations/screens/experts.dart';
+import 'package:consultations/screens/home.dart';
 import 'package:flutter/material.dart';
 
 import '../constant.dart';
@@ -15,6 +16,7 @@ class ConsultationsScreen extends StatefulWidget {
 class _ConsultationsScreenState extends State<ConsultationsScreen> {
   List<dynamic> consultationsList = [];
   bool loading = false;
+  late List<DropdownMenuItem<String>> consultationsListDropDown;
 
   void _getConsultationsList() async {
     ApiResponse response = await getConsultations();
@@ -46,12 +48,22 @@ class _ConsultationsScreenState extends State<ConsultationsScreen> {
                     consultationsList.elementAt(i).toString(),
                     i + 1,
                     () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ExpertsScreen(
-                                  path: consultaionExpertsUrl,
-                                  data: (i + 1).toString())));
+                      if (searchString == '') {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ExpertsScreen(
+                                    path: consultaionExpertsUrl,
+                                    data: (i + 1).toString())));
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ExpertsScreen(
+                                    path:
+                                        '$filteredSearch${i + 1}/$searchString',
+                                    data: '')));
+                      }
                     },
                   ),
               ],

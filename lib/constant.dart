@@ -8,15 +8,19 @@ const baseUrl = 'http://192.168.43.51:8000/api/';
 const userRegisterUrl = '${baseUrl}users/register';
 const userLoginUrl = '${baseUrl}login';
 const userBookedTimes = '${baseUrl}users/bookedTimes';
-const flipFavUrl = '${baseUrl}users/flip_favorite/'; // + expert_id
-const rateExpertUrl = '${baseUrl}experts/rate/'; // + expert_id
+const flipFavUrl = '${baseUrl}users/flip_favorite';
+const rateExpertUrl = '${baseUrl}experts/rate/';
 
 // expert
 const expertRegisterUrl = '${baseUrl}experts/register';
 const favoriteExpertsUrl = '${baseUrl}favorites';
 const searchOnExpertsUrl = '${baseUrl}experts/search/';
-const expertProfile = '${baseUrl}experts/';
+const expertProfile = '${baseUrl}experts/show/';
 const consultaionExpertsUrl = '${baseUrl}experts/searchByConsultation/';
+const expertAvailableTimes = '${baseUrl}experts/available_times/';
+const expertBookTime = '${baseUrl}experts/book/';
+const filteredSearch =
+    '${baseUrl}experts/search/filterByConsultation/'; // {consultation_id}/search_text
 
 // consultation
 const consultationsUrl = '${baseUrl}consultations/all';

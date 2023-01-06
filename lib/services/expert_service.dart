@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+
 import '../constant.dart';
 import '../models/api_response.dart';
 import 'package:http/http.dart' as http;
@@ -8,13 +10,12 @@ Future<ApiResponse> getExpertProfile(String id) async {
   ApiResponse apiResponse = ApiResponse();
   try {
     final response = await http.get(
-      Uri.parse(expertProfile),
+      Uri.parse(expertProfile + id),
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ${user?.token}'
       },
     );
-
     switch (response.statusCode) {
       case 200:
         apiResponse.data = jsonDecode(response.body);
@@ -43,6 +44,8 @@ Future<ApiResponse> getExperts(String path, String data) async {
         'Authorization': 'Bearer ${user?.token}'
       },
     );
+
+    debugPrint(response.body.toString());
 
     switch (response.statusCode) {
       case 200:
@@ -109,5 +112,56 @@ Future<ApiResponse> registerExpert(
     apiResponse.error = serverError;
   }
 
+  return apiResponse;
+}
+
+Future<ApiResponse> getAvailabeTimes(String date, String expertId) async {
+  ApiResponse apiResponse = ApiResponse();
+  try {
+    final response = await http.get(
+      Uri.parse('$expertAvailableTimes$expertId/$date'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${user?.token}'
+      },
+    );
+
+    switch (response.statusCode) {
+      case 200:
+        apiResponse.data = jsonDecode(response.body);
+        break;
+      case 400:
+        apiResponse.error = notFound;
+        break;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
+  return apiResponse;
+}
+
+Future<ApiResponse> bookTime(String date, String expertId, String hour) async {
+  ApiResponse apiResponse = ApiResponse();
+  try {
+    final response =
+        await http.post(Uri.parse(expertBookTime + expertId), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${user?.token}'
+    }, body: {
+      'date': date,
+      'hour': hour,
+    });
+
+    switch (response.statusCode) {
+      case 200:
+        apiResponse.data = jsonDecode(response.body);
+        break;
+      case 400:
+        apiResponse.error = notFound;
+        break;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
   return apiResponse;
 }
