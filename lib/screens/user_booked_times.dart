@@ -20,7 +20,9 @@ class _BookedTimesUserScreenState extends State<BookedTimesUserScreen> {
 
     if (response.error == null) {
       loading = false;
-      bookedTimes = response.data as List<dynamic>;
+      setState(() {
+        bookedTimes = response.data as List<dynamic>;
+      });
     }
   }
 
@@ -49,7 +51,9 @@ class _BookedTimesUserScreenState extends State<BookedTimesUserScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ExpertProfileScreen(
-                                  idExpert: bookedTimes.elementAt(i)['id'],
+                                  idExpert: bookedTimes
+                                      .elementAt(i)['expert_id']
+                                      .toString(),
                                 )));
                   })
               ],

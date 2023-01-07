@@ -18,24 +18,30 @@ class _NewAppointmentScreenState extends State<NewAppointmentScreen> {
   _NewAppointmentScreenState(this.expertId);
   DateTime date = DateTime.now();
 
-  List<String> availabeTimes = [];
+  List<dynamic> availabeTimes = [];
   bool choosedDate = false;
 
   void _getAvailableTimes() async {
-    ApiResponse response = await getAvailabeTimes(date.toString(), expertId);
-    if (response.error == null) {
+    ApiResponse response = await getAvailabeTimes(
+        '${date.day}-${date.month}-${date.year}', expertId);
+    if (response.error == null && response.data != null) {
       setState(() {
-        availabeTimes = response.data as List<String>;
+        var k = response.data as List<dynamic>;
+        availabeTimes = k[0];
       });
+    } else {
+      availabeTimes = [];
+      choosedDate = false;
     }
   }
 
   void _bookTime(String hour) async {
-    ApiResponse response = await bookTime(date.toString(), expertId, hour);
+    ApiResponse response = await bookTime(
+        '${date.day}-${date.month}-${date.year}', expertId, hour);
     if (response.error == null) {
       setState(() {
         String newWallet =
-            (response.data as Map<String, String>)['wallet'].toString();
+            (response.data as Map<String, dynamic>)['wallet'].toString();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.blue[900],
           content: Text(

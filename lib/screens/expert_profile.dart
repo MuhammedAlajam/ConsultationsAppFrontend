@@ -33,7 +33,6 @@ class _ExpertProfileScreenState extends State<ExpertProfileScreen> {
       });
       loading = false;
       data = response.data as Map<String, dynamic>;
-      debugPrint(response.data.toString());
       if (data['is_favorite']) isFavorite = true;
 
       List consultationsList = data['consultations'] as List<dynamic>;

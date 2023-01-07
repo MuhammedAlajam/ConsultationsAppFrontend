@@ -1,4 +1,5 @@
 import 'package:consultations/constant.dart';
+import 'package:consultations/screens/expert_booked_times.dart';
 import 'package:consultations/screens/experts.dart';
 import 'package:consultations/screens/loading.dart';
 import 'package:consultations/services/user_service.dart';
@@ -115,6 +116,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             doubleTextView('hourly rate',
                                 '${(user as Expert).hourlyRate ?? ''} USD'),
                             const SizedBox(height: 8),
+                            button('working hours', () {
+                              if (!mounted) return;
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ExpertBookedTimes()));
+                            })
                           ],
                         ),
                     ],

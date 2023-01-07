@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 
 import '../constant.dart';
@@ -35,6 +36,7 @@ Future<ApiResponse> getExperts(String path, String data) async {
     path = path + data;
   }
 
+  debugPrint(path);
   ApiResponse apiResponse = ApiResponse();
   try {
     final response = await http.get(
@@ -44,8 +46,6 @@ Future<ApiResponse> getExperts(String path, String data) async {
         'Authorization': 'Bearer ${user?.token}'
       },
     );
-
-    debugPrint(response.body.toString());
 
     switch (response.statusCode) {
       case 200:
@@ -142,14 +142,15 @@ Future<ApiResponse> getAvailabeTimes(String date, String expertId) async {
 
 Future<ApiResponse> bookTime(String date, String expertId, String hour) async {
   ApiResponse apiResponse = ApiResponse();
+
   try {
-    final response =
-        await http.post(Uri.parse(expertBookTime + expertId), headers: {
+    final response = await http.post(Uri.parse(expertBookTime), headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${user?.token}'
     }, body: {
       'date': date,
       'hour': hour,
+      'expert_id': expertId,
     });
 
     switch (response.statusCode) {
@@ -163,5 +164,65 @@ Future<ApiResponse> bookTime(String date, String expertId, String hour) async {
   } catch (e) {
     apiResponse.error = serverError;
   }
+  return apiResponse;
+}
+
+Future<ApiResponse> setAvailableTimes(String day, String hours) async {
+  ApiResponse apiResponse = ApiResponse();
+
+  try {
+    final response = await http.post(Uri.parse(setAvailableTimesUrl), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${user?.token}'
+    }, body: {
+      'day': day,
+      'hours': hours,
+    });
+
+    switch (response.statusCode) {
+      case 200:
+        apiResponse.data = jsonDecode(response.body);
+        break;
+      case 400:
+        apiResponse.error = notFound;
+        break;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
+  return apiResponse;
+}
+
+Future<ApiResponse> getExpertBookedTimes() async {
+  ApiResponse apiResponse = ApiResponse();
+
+  try {
+    final response = await http.get(
+      Uri.parse(expertBookedTimesUrl),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${user?.token}',
+      },
+    );
+
+    switch (response.statusCode) {
+      case 200:
+        apiResponse.data = jsonDecode(response.body);
+        break;
+      case 422:
+        final errors = jsonDecode(response.body)['errors'];
+        apiResponse.error = errors[errors.keys.elementAt(0)][0];
+        break;
+      case 403:
+        apiResponse.error = jsonDecode(response.body)['message'];
+        break;
+      default:
+        apiResponse.error = someThingWentWront;
+        break;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
+
   return apiResponse;
 }

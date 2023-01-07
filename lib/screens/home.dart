@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'consultations.dart';
 import 'loading.dart';
 
-String searchString = '';
+String searchText = '';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -24,7 +24,6 @@ class _HomeState extends State<Home> {
   ];
   int pageInd = 0;
   TextEditingController searchBox = TextEditingController();
-  String searchText = '';
 
   @override
   Widget build(BuildContext context) {

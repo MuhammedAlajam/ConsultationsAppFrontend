@@ -48,7 +48,7 @@ class _ConsultationsScreenState extends State<ConsultationsScreen> {
                     consultationsList.elementAt(i).toString(),
                     i + 1,
                     () {
-                      if (searchString == '') {
+                      if (searchText == '') {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -61,7 +61,7 @@ class _ConsultationsScreenState extends State<ConsultationsScreen> {
                             MaterialPageRoute(
                                 builder: (context) => ExpertsScreen(
                                     path:
-                                        '$filteredSearch${i + 1}/$searchString',
+                                        '$filteredSearchUrl${i + 1}/$searchText',
                                     data: '')));
                       }
                     },

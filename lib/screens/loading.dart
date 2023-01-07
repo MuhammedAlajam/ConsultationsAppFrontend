@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:consultations/constant.dart';
 import 'package:consultations/models/expert.dart';
 import 'package:consultations/models/user.dart';
 import 'package:consultations/screens/login.dart';
+import 'package:consultations/services/expert_service.dart';
 import 'package:consultations/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
@@ -13,6 +15,16 @@ class LoadingScreen extends StatefulWidget {
 
   @override
   State<LoadingScreen> createState() => _LoadingScreenState();
+}
+
+void _sendAvailableHoursForDay(String day) async {
+  setAvailableTimes(day, jsonEncode(workHours[day]));
+}
+
+void _sendAvailableHours() async {
+  for (int i = 0; i < weekDays.length; i++) {
+    _sendAvailableHoursForDay(weekDays.elementAt(i));
+  }
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
@@ -33,6 +45,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         user = Expert.fromJson(json);
       }
 
+      _sendAvailableHours();
       if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const Home()),

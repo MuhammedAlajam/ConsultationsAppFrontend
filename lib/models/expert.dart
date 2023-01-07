@@ -19,9 +19,9 @@ class Expert extends User {
     phoneNumber = json['user']['phone_number'];
     wallet = json['user']['wallet'];
     roleType = json['user']['role_type'];
-    token = json['token'];
     description = json['user']['description'];
     hourlyRate = json['user']['hourly_rate'];
+    token = json['token'];
   }
 
   String expertDataToString() {

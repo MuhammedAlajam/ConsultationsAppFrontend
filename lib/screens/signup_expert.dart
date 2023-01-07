@@ -27,7 +27,6 @@ class _SignUpExpertScreenState extends State<SignUpExpertScreen> {
   TextEditingController description = TextEditingController();
   TextEditingController hourlyRate = TextEditingController();
   List<TextEditingController> consultations = [];
-
   List<Widget> consultationsTextBoxes = [];
 
   bool loading = false;
@@ -38,7 +37,6 @@ class _SignUpExpertScreenState extends State<SignUpExpertScreen> {
       consultationsList.add(consultations[i].text);
     }
 
-    // remaining : description, hourly rate
     ApiResponse response = await registerExpert(
       username.text,
       firstName.text,
@@ -64,10 +62,19 @@ class _SignUpExpertScreenState extends State<SignUpExpertScreen> {
   void _saveAnsGoToHome(Expert expert) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setString('userInfo', expert.expertDataToString());
+
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const LoadingScreen()),
         (route) => false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < weekDays.length; i++) {
+      workHours[weekDays.elementAt(i)] = [];
+    }
   }
 
   @override
@@ -227,6 +234,72 @@ class _SignUpExpertScreenState extends State<SignUpExpertScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 30),
+            for (int i = 0; i < 7; i++)
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 22),
+                margin: const EdgeInsets.all(22),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(26),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      weekDays.elementAt(i),
+                      style: TextStyle(
+                          color: Colors.blue[700],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40),
+                    ),
+                    const SizedBox(height: 20),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            for (int h = 0; h < hours.length; h++)
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (workHours[weekDays.elementAt(i)]!
+                                        .contains(h)) {
+                                      workHours[weekDays.elementAt(i)]!
+                                          .remove(h);
+                                    } else {
+                                      workHours[weekDays.elementAt(i)]!.add(h);
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  margin: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      color: (workHours[weekDays.elementAt(i)]!
+                                              .contains(h))
+                                          ? Colors.amber
+                                          : Colors.grey,
+                                      borderRadius: BorderRadius.circular(16)),
+                                  child: Text(
+                                    hours.elementAt(h),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30),
+                                  ),
+                                ),
+                              )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             const SizedBox(height: 8),
             loading
                 ? const Center(
