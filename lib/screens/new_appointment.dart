@@ -38,7 +38,7 @@ class _NewAppointmentScreenState extends State<NewAppointmentScreen> {
   void _bookTime(String hour) async {
     ApiResponse response = await bookTime(
         '${date.day}-${date.month}-${date.year}', expertId, hour);
-    if (response.error == null) {
+    if (response.data != null) {
       setState(() {
         String newWallet =
             (response.data as Map<String, dynamic>)['wallet'].toString();
@@ -48,6 +48,12 @@ class _NewAppointmentScreenState extends State<NewAppointmentScreen> {
               'Booking done successfully, your balance now is : $newWallet'),
         ));
       });
+    } else {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.blue[900],
+        content: const Text('sorry, you dont have enough money'),
+      ));
     }
   }
 
